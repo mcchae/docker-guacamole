@@ -1,0 +1,36 @@
+version: '3'
+services:
+
+  guacdb:
+    image: mysql
+    container_name: guacdb
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    volumes:
+      - /root/guacdb:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: my12#
+      MYSQL_DATABASE: guac
+    cap_add:
+      - SYS_NICE
+
+  guacd:
+    image: guacamole/guacd
+    container_name: guacd
+    restart: always
+
+  guacamole:
+    image: guacamole/guacamole
+    container_name: guacamole
+    restart: always
+    ports:
+      - 18080:8080
+    links:
+      - guacd
+      - guacdb
+    environment:
+      GUACD_HOSTNAME: guacd
+      MYSQL_HOSTNAME: guacdb
+      MYSQL_DATABASE: guac
+      MYSQL_USER: root
+      MYSQL_PASSWORD: my12#
