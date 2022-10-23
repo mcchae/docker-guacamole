@@ -50,12 +50,15 @@ services:
       - guacd
       - guacdb
     environment:
+      WEBAPP_CONTEXT: ROOT
       GUACD_HOSTNAME: guacd
       MYSQL_HOSTNAME: guacdb
       MYSQL_DATABASE: guac
       MYSQL_USER: root
       MYSQL_PASSWORD: my12#
 ```
+
+> * `WEBAPP_CONTEXT`를 `ROOT`로 지정하면 기본 `http://host/quacamole` 가 `http://host` 로 되어 쉽게 NginX 등에서 이용할 수 있습니다.
 
 또한 다음과 같은 세 가지 쉘 스크립트를 만들었습니다.
 
